@@ -1,18 +1,15 @@
-// ====== CONFIGURACIÓN ======
 var RAPIDAPI_HOST = "youtube-music-api3.p.rapidapi.com";
 var RAPIDAPI_KEY  = "ff96a9d414msh286cbe7c923e07ep13176ajsn170225b0b7d2"; 
 var URL_ARTIST    = "https://" + RAPIDAPI_HOST + "/getArtists?id=";
 var URL_SEARCH    = "https://" + RAPIDAPI_HOST + "/search?q=";
 var MAX_PER_SECTION = 4;
 
-// ====== ELEMENTOS ======
 var form = document.getElementById("formId");
 var input = document.getElementById("txtId");
 var estado = document.getElementById("estado");
 var cajaArtista = document.getElementById("cajaArtista");
 var fechaHoy = document.getElementById("fechaHoy");
 
-// Secciones y filas
 var secSongs   = document.getElementById("secSongs");
 var secAlbums  = document.getElementById("secAlbums");
 var secSingles = document.getElementById("secSingles");
@@ -25,12 +22,10 @@ var rowSingles = document.getElementById("rowSingles");
 var rowVideos  = document.getElementById("rowVideos");
 var rowRelated = document.getElementById("rowRelated");
 
-// Fecha
 try{
   fechaHoy.textContent = new Date().toLocaleDateString("es-GT", {year:"numeric", month:"long", day:"numeric"});
 }catch(e){}
 
-// ====== UTILIDADES ======
 function ponerEstado(html){ estado.innerHTML = html || ""; }
 function truncar(texto, max){
   if(!texto) return "";
@@ -44,7 +39,6 @@ function limpiarSecciones(){
   rowVideos.innerHTML = "";
   rowRelated.innerHTML = "";
 
-  // Siempre visibles
   secSongs.style.display   = "";
   secAlbums.style.display  = "";
   secSingles.style.display = "";
@@ -98,7 +92,6 @@ function getId(it){
   return String(id);
 }
 
-// ====== DEDUP GLOBAL ======
 var usadosAll = new Set();
 var usados = {
   songs:   new Set(),
@@ -108,7 +101,6 @@ var usados = {
   related: new Set()
 };
 
-// Agrega hasta N elementos únicos a una fila
 function addFromListToRow(lista, row, badge, sectionKey, max){
   var added = 0;
   var local = usados[sectionKey];
@@ -134,7 +126,6 @@ function addFromListToRow(lista, row, badge, sectionKey, max){
   return added;
 }
 
-// ====== CABECERA ARTISTA ======
 function pintarArtista(root){
   var nombre = root.name || root.title || "Artista";
   var thumb = getThumb(root);
@@ -149,10 +140,8 @@ function pintarArtista(root){
   cajaArtista.innerHTML = html;
 }
 
-// ====== FALLOVER A /search PARA RELLENAR HASTA 4 ======
 function buscarParaRellenar(query, tipo, row, badge, sectionKey, faltantes, textoVacio){
   if(faltantes <= 0){
-    // nada que rellenar
     if(row.children.length === 0) vacioRow(row, textoVacio);
     return Promise.resolve();
   }
@@ -189,7 +178,6 @@ function buscarParaRellenar(query, tipo, row, badge, sectionKey, faltantes, text
   });
 }
 
-// ====== AYUDA DE ESTRUCTURA ======
 function getRoot(data){
   if(data && data.artist) return data.artist;
   if(data && data.data) return data.data;
@@ -198,11 +186,9 @@ function getRoot(data){
   return data || {};
 }
 
-// ====== FETCH PRINCIPAL ======
 function cargarArtista(channelId){
   var url = URL_ARTIST + encodeURIComponent(channelId);
 
-  // reiniciar dedup global por cada artista
   usadosAll = new Set();
   usados = { songs:new Set(), albums:new Set(), singles:new Set(), videos:new Set(), related:new Set() };
 
@@ -230,24 +216,20 @@ function cargarArtista(channelId){
     var root = getRoot(data);
     var nombreArtista = root.name || root.title || (root.channelId || channelId);
 
-    // Cabecera
     pintarArtista(root);
 
-    // Colecciones desde el endpoint principal
     var songs   = root.topSongs || root.songs || root.tracks || [];
     var albums  = root.albums  || [];
     var singles = root.singles || root.ep || [];
     var videos  = root.videos  || root.musicVideos || [];
     var related = root.related || root.relatedArtists || root.similar || [];
 
-    // 1) Añadir lo que haya (máx 4) y 2) Rellenar hasta 4 con /search
     var addedSongs   = addFromListToRow(songs,   rowSongs,   "Canción", "songs",   MAX_PER_SECTION);
     var addedAlbums  = addFromListToRow(albums,  rowAlbums,  "Álbum",   "albums",  MAX_PER_SECTION);
     var addedSingles = addFromListToRow(singles, rowSingles, "Single",  "singles", MAX_PER_SECTION);
     var addedVideos  = addFromListToRow(videos,  rowVideos,  "Video",   "videos",  MAX_PER_SECTION);
     var addedRelated = addFromListToRow(related, rowRelated, "Artista", "related", MAX_PER_SECTION);
 
-    // Relleno (query ajustada para reducir repetidos)
     var p1 = buscarParaRellenar(nombreArtista,            "song",  rowSongs,   "Canción", "songs",   MAX_PER_SECTION - addedSongs,   "No hay canciones disponibles.");
     var p2 = buscarParaRellenar(nombreArtista,            "album", rowAlbums,  "Álbum",   "albums",  MAX_PER_SECTION - addedAlbums,  "No hay álbumes disponibles.");
     var p3 = buscarParaRellenar(nombreArtista + " single","song",  rowSingles, "Single",  "singles", MAX_PER_SECTION - addedSingles, "No hay singles disponibles.");
@@ -262,7 +244,6 @@ function cargarArtista(channelId){
   });
 }
 
-// ====== EVENTOS ======
 form.addEventListener("submit", function(e){
   e.preventDefault();
   var id = (input.value || "").trim();
@@ -270,7 +251,6 @@ form.addEventListener("submit", function(e){
   cargarArtista(id);
 });
 
-// Carga inicial
 document.addEventListener("DOMContentLoaded", function(){
   form.requestSubmit();
 });
