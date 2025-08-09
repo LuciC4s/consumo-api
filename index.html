@@ -1,73 +1,80 @@
 <!doctype html>
 <html lang="es">
+
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>YouTube Music</title>
-  <link rel="stylesheet" href="./public/css/bootstrap.min.css">
-  <link rel="stylesheet" href="./style.css">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>YouTube Music</title>
+    <link rel="icon" href="./img/icon.svg" type="image/svg+xml">
+
+    <link rel="stylesheet" href="./public/css/bootstrap.min.css">
+    <link rel="stylesheet" href="./style.css">
 </head>
+
 <body>
-  <header class="py-4 bg-black border-bottom">
-    <div class="container">
-      <h1 class="h3 m-0" id="titulo">YouTube Music</h1>
-    </div>
-  </header>
-
-  <main class="container my-4">
-    <section class="mb-3">
-      <form id="formId" class="row g-2 box-suave">
-        <div class="col-12 col-md-9">
-          <label for="txtId" class="form-label">ID del artista</label>
-          <input id="txtId" class="form-control" type="text"
-                 value="UC39pUcAh8ipNPkA1W0dR0cA"
-                 placeholder="Ej: UC39pUcAh8ipNPkA1W0dR0cA" required>
+    <header class="py-4 bg-black border-bottom">
+        <div class="container">
+            <h1 class="h3 m-0 d-flex align-items-center gap-2" id="titulo">
+                <img src="./img/icon1.svg" alt="" width="40" height="40">
+                YouTube Music
+            </h1>
         </div>
-        <div class="col-12 col-md-3 d-grid">
-          <label class="form-label invisible">.</label>
-          <button class="btn btn-primary">Cargar</button>
+    </header>
+
+    <main class="container my-4">
+        <section class="mb-3">
+            <form id="formId" class="row g-2 box-suave">
+                <div class="col-12 col-md-9">
+                    <label for="txtId" class="form-label">ID del artista</label>
+                    <input id="txtId" class="form-control" type="text" value="UC39pUcAh8ipNPkA1W0dR0cA"
+                        placeholder="Ej: UC39pUcAh8ipNPkA1W0dR0cA" required>
+                </div>
+                <div class="col-12 col-md-3 d-grid">
+                    <label class="form-label invisible">.</label>
+                    <button class="btn btn-danger">Cargar</button>
+                </div>
+            </form>
+            <small class="text-muted">Puedes probar con otros Channel IDs de artistas.</small>
+        </section>
+
+        <section id="estado" aria-live="polite" class="mb-3"></section>
+
+        <section id="cajaArtista" class="mb-4"></section>
+
+        <section id="secSongs" style="display:none">
+            <h2 class="h5 mb-3">Canciones populares</h2>
+            <div id="rowSongs" class="row g-4"></div>
+        </section>
+
+        <section id="secAlbums" style="display:none">
+            <h2 class="h5 my-4">Álbumes</h2>
+            <div id="rowAlbums" class="row g-4"></div>
+        </section>
+
+        <section id="secSingles" style="display:none">
+            <h2 class="h5 my-4">Singles</h2>
+            <div id="rowSingles" class="row g-4"></div>
+        </section>
+
+        <section id="secVideos" style="display:none">
+            <h2 class="h5 my-4">Videos</h2>
+            <div id="rowVideos" class="row g-4"></div>
+        </section>
+
+        <section id="secRelated" style="display:none">
+            <h2 class="h5 my-4">Artistas relacionados</h2>
+            <div id="rowRelated" class="row g-4"></div>
+        </section>
+    </main>
+
+    <footer class="py-4 text-center border-top">
+        <div class="container small text-muted">
+            <strong>Lucia Del Rosario Pérez Castillo</strong> — <span id="fechaHoy"></span>
         </div>
-      </form>
-      <small class="text-muted">Puedes probar con otros Channel IDs de artistas.</small>
-    </section>
+    </footer>
 
-    <section id="estado" aria-live="polite" class="mb-3"></section>
-
-    <section id="cajaArtista" class="mb-4"></section>
-
-    <section id="secSongs" style="display:none">
-      <h2 class="h5 mb-3">Canciones populares</h2>
-      <div id="rowSongs" class="row g-4"></div>
-    </section>
-
-    <section id="secAlbums" style="display:none">
-      <h2 class="h5 my-4">Álbumes</h2>
-      <div id="rowAlbums" class="row g-4"></div>
-    </section>
-
-    <section id="secSingles" style="display:none">
-      <h2 class="h5 my-4">Singles</h2>
-      <div id="rowSingles" class="row g-4"></div>
-    </section>
-
-    <section id="secVideos" style="display:none">
-      <h2 class="h5 my-4">Videos</h2>
-      <div id="rowVideos" class="row g-4"></div>
-    </section>
-
-    <section id="secRelated" style="display:none">
-      <h2 class="h5 my-4">Artistas relacionados</h2>
-      <div id="rowRelated" class="row g-4"></div>
-    </section>
-  </main>
-
-  <footer class="py-4 text-center border-top">
-    <div class="container small text-muted">
-     <strong>Lucia Del Rosario Pérez Castillo</strong> — <span id="fechaHoy"></span>
-    </div>
-  </footer>
-
-  <script src="./public/js/bootstrap.bundle.min.js"></script>
-  <script src="./script.js"></script>
+    <script src="./public/js/bootstrap.bundle.min.js"></script>
+    <script src="./script.js"></script>
 </body>
+
 </html>

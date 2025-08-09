@@ -1,4 +1,4 @@
-/* Fondo blanco, texto oscuro */
+
 body{
   background: #ffffff;
   color: #212529;
@@ -7,11 +7,11 @@ body{
 header{
   background: #000000;
 }
+
 #titulo{
   color: #ffffff;
 }
 
-/* Caja suave para el form */
 .box-suave{
   background: #f8f9fa;
   border: 1px solid #e9ecef;
@@ -19,7 +19,6 @@ header{
   padding: 12px;
 }
 
-/* Tarjetas sencillas para todo */
 .tarjeta{
   background: #ffffff;
   border: 1px solid #e5e7eb;
